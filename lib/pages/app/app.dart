@@ -30,6 +30,13 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+
+    print(User().status);
+
+    if(User().status > 1){
+
+    }
+
     return MaterialApp(
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       localizationsDelegates: const [

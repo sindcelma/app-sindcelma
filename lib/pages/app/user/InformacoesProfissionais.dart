@@ -57,13 +57,16 @@ class _InformacoesProfissionaisState extends State<InformacoesProfissionais> {
     }
 
     var response = request.response()['message'];
-    cargo = response['cargo'];
+    cargo = response['cargo'] ?? "";
     final DateFormat formatterBr = DateFormat('dd/MM/yyyy');
     final DateFormat formatterEn = DateFormat('yyyy-MM-dd');
-    DateTime data = DateTime.parse(response['data_admissao']);
-    data_admissao = formatterBr.format(data);
-    data_en = formatterEn.format(data);
-    num_matricula = response['num_matricula'];
+    if(response['data_admissao'] != null){
+      DateTime data = DateTime.parse(response['data_admissao']);
+      data_admissao = formatterBr.format(data);
+      data_en = formatterEn.format(data);
+    }
+
+    num_matricula = response['num_matricula'] ?? "";
 
     afterLoad();
 
@@ -111,6 +114,29 @@ class _InformacoesProfissionaisState extends State<InformacoesProfissionais> {
   Widget getForm(){
     return ListView(
       children: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.arrow_back,
+                    color: Colors.red,
+                  ),
+                  Text("voltar",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18
+                    ),
+                  )
+                ]
+            ),
+          ),
+        ),
         const Padding(padding: EdgeInsets.all(10),
           child:  Icon(Icons.energy_savings_leaf_outlined,
             color: Colors.red,

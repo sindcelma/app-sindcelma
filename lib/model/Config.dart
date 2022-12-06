@@ -1,13 +1,13 @@
 class Config {
 
-  static const String urlProduction  = "https://sindcelma.com.br";
+  static const String urlProduction  = "http://sindcelmatecnologia.com.br";
   static const String urlDevelopment = "http://192.168.0.11:3050";
 
-  static const String urlAPIProduction  = "https://sindcelma.com.br/api";
+  static const String urlAPIProduction  = "http://sindcelmatecnologia.com.br";
   static const String urlAPIDevelopment = "http://192.168.0.11:3050";
 
   static const bool   isSecure       = false;
-  static const bool   isInProduction = false;
+  static const bool   isInProduction = true;
 
   static String getUrl(String uri){
     String url = (isInProduction ? urlProduction : urlDevelopment)+uri;

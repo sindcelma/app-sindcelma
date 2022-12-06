@@ -9,8 +9,9 @@ import 'PreviewImagem.dart';
 class FotoArquivo extends StatefulWidget {
 
   final Function onFile;
+  final Function? onBack;
 
-  const FotoArquivo(this.onFile, {Key? key}) : super(key: key);
+  const FotoArquivo(this.onFile, { this.onBack, Key? key}) : super(key: key);
 
   @override
   State<FotoArquivo> createState() => _FotoArquivoState();
@@ -60,6 +61,30 @@ class _FotoArquivoState extends State<FotoArquivo> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: GestureDetector(
+                onTap: (){
+                  widget.onBack!();
+                  Navigator.pop(context);
+                },
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Icon(
+                        Icons.arrow_back,
+                        color: Colors.red,
+                      ),
+                      Text("voltar",
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 18
+                        ),
+                      )
+                    ]
+                ),
+              ),
+            ),
             const Padding(
               padding: EdgeInsets.only(top: 20, bottom: 40),
               child: Text("ALTERAR IMAGEM DE USUÁRIO",

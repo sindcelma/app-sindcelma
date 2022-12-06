@@ -10,7 +10,7 @@ class CadastrarDados extends StatelessWidget implements Activity {
 
   bool emailStatus = false;
   bool senhaStatus = false;
-  List<String> list = ["Masculino", "Feminino", "nenhum"];
+  List<String> list = ["Masculino", "Feminino", "Nenhum"];
 
   BuildContext? context;
 
@@ -26,6 +26,7 @@ class CadastrarDados extends StatelessWidget implements Activity {
           User().email = str;
           emailStatus = status;
         });
+
     dinamicInputEmail.setRules(RegExp(r'^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$'), "email não é válido");
     Widget inputEmail = dinamicInputEmail as Widget;
 
@@ -35,13 +36,14 @@ class CadastrarDados extends StatelessWidget implements Activity {
           senhaStatus  = status;
         });
     dinamicInputSenha.setRules(RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$'), "min. 6 caracteres com letras e números");
-    Widget inputSenha = dinamicInputEmail as Widget;
+    Widget inputSenha = dinamicInputSenha as Widget;
 
     DinamicInput dinamicInputConfirmSenha = Input(
         label: "Confirme sua senha",
         value: User().confirm,
         onChanged: (str, status) =>  User().confirm = str
     );
+
     dinamicInputConfirmSenha.setFunctionError(() => User().confirm == User().senha);
     Widget inputConfirm = dinamicInputConfirmSenha as Widget;
 

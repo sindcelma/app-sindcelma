@@ -26,10 +26,10 @@ class _InformacoesPessoaisState extends State<InformacoesPessoais> {
 
   String cpf = "";
   String rg = "";
-  String genero = "";
+  String genero = "Gênero";
   String data_nascimento = "";
   String data_nascimento_en = "";
-  String estado_civil = "";
+  String estado_civil = "Estado Civil";
   String telefone = "";
 
   void close(){
@@ -86,6 +86,10 @@ class _InformacoesPessoaisState extends State<InformacoesPessoais> {
     });
 
     if(request.code() != 200){
+      if(request.code() == 404){
+        afterLoading();
+        return;
+      }
       if(request.code() == 403){
         widget.onResponse(false, true);
         return close();
@@ -107,14 +111,17 @@ class _InformacoesPessoaisState extends State<InformacoesPessoais> {
         genero = 'Nenhum';
     }
 
-    DateTime data = DateTime.parse(response['data_nascimento']);
-    data_nascimento = formatterBr.format(data);
-    data_nascimento_en = formatterEn.format(data);
+    if(response['data_nascimento'] != null){
+      DateTime data = DateTime.parse(response['data_nascimento']);
+      data_nascimento = formatterBr.format(data);
+      data_nascimento_en = formatterEn.format(data);
+    }
 
-    rg = response['rg'];
-    estado_civil = response['estado_civil'];
-    telefone = response['telefone'];
-    cpf = response['cpf'];
+
+    rg = response['rg'] ?? "";
+    estado_civil = response['estado_civil'] ?? "";
+    telefone = response['telefone'] ?? "";
+    cpf = response['cpf'] ?? "";
 
     afterLoading();
 
@@ -129,6 +136,29 @@ class _InformacoesPessoaisState extends State<InformacoesPessoais> {
   Widget getForm(){
     return ListView(
       children: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.arrow_back,
+                    color: Colors.red,
+                  ),
+                  Text("voltar",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18
+                    ),
+                  )
+                ]
+            ),
+          ),
+        ),
         const Padding(padding: EdgeInsets.all(10),
           child:  Icon(Icons.verified_user_outlined,
             color: Colors.red,

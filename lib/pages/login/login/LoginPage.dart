@@ -5,6 +5,7 @@ import 'package:sindcelma_app/components/Input.dart';
 import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
 import 'package:sindcelma_app/model/services/UserManagerService.dart';
+import 'package:sindcelma_app/pages/login/login/CadastrarCPF.dart';
 import 'package:sindcelma_app/pages/login/login/PasswordArea.dart';
 import 'package:sindcelma_app/pages/login/login/UserArea.dart';
 import 'package:sindcelma_app/themes.dart';
@@ -26,6 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   String email = "";
   String senha = "";
   String cpf = "";
+  String np = "";
+  bool emailStatus = false;
   List<Widget> subpages = [];
   int _index = 0;
 
@@ -80,12 +83,28 @@ class _LoginPageState extends State<LoginPage> {
         logar();
       }, cpf, showError);
 
+      case 3: return CadastrarCPF((cpf){
+       setState(() {
+         this.cpf = cpf;
+         if(!emailStatus){
+           _index = 2;
+         } else {
+           _index = 1;
+         }
+       });
+      }, showError, np:np);
+
       case 0:
       default:
-        return UserArea((String email, bool emailStatus, String cpf){
+        return UserArea((String email, bool emailStatus, String cpf, bool cpfStatus, String np){
         setState(() {
           this.cpf = cpf;
           this.email = email;
+          this.np = np;
+          this.emailStatus = emailStatus;
+          if(!cpfStatus){
+            _index = 3;
+          } else
           if(!emailStatus){
             _index = 2;
           } else {

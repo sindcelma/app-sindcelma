@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:sindcelma_app/components/Btn.dart';
 import 'package:sindcelma_app/model/Config.dart';
+import 'package:sindcelma_app/themes.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../model/entities/User.dart';
 
 class QRCodeLink extends StatefulWidget {
@@ -37,9 +40,8 @@ class _QRCodeLinkState extends State<QRCodeLink> {
     var hash     = sha256.convert(bytes);
 
     var link     = "${Config.getUrl('/socio_verify/')}${base64.encode(utf8.encode(data))}.$hash";
-
     print(link);
-    return "${link}";
+    return link;
 
   }
 
@@ -51,6 +53,7 @@ class _QRCodeLinkState extends State<QRCodeLink> {
           setState(() {
             sec = 30;
             data = generateData();
+
           });
         }
       } else {
@@ -85,7 +88,25 @@ class _QRCodeLinkState extends State<QRCodeLink> {
               ),
             ),
           ),
-        )
+        ),
+        /*
+        // implementar botão para link
+        Padding(padding: const EdgeInsets.all(20),
+          child: BtnIconOutline(
+            TypeColor.secondary,
+            "Verificar",
+            const Icon(Icons.open_in_new),
+              () async {
+                final Uri url = Uri.parse(data);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  print("Nao é possivel");
+                }
+              }
+          ),)
+          */
+
       ],
     );
   }

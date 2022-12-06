@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sindcelma_app/components/Firewall.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
 import 'package:sindcelma_app/pages/app/ccts/CCTItemSelected.dart';
 
@@ -185,7 +186,9 @@ class _CCTSelectedState extends State<CCTSelected> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Column(
+        body: Firewall(
+            onCheckMessage: () => Navigator.pop(context),
+            child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
             // header
@@ -195,41 +198,41 @@ class _CCTSelectedState extends State<CCTSelected> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.red,
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.red,
+                          ),
                         ),
-                      ),
-                    )
+                      )
                   ),
                   Expanded(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top:5, left: 20, right: 20),
-                      child: TextField(
-                        onChanged: (str){
-                          searchText = str;
-                          getDataSearch();
-                        },
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search_rounded,
-                              color: Colors.red,
-                            ),
-                            border: InputBorder.none,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: Colors.white, width: 32.0),
-                                borderRadius: BorderRadius.circular(25.0)
-                            )
+                      flex: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top:5, left: 20, right: 20),
+                        child: TextField(
+                          onChanged: (str){
+                            searchText = str;
+                            getDataSearch();
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.search_rounded,
+                                color: Colors.red,
+                              ),
+                              border: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.white, width: 32.0),
+                                  borderRadius: BorderRadius.circular(25.0)
+                              )
+                          ),
                         ),
-                      ),
-                    )
+                      )
                   )
                 ],
               ),
@@ -279,7 +282,7 @@ class _CCTSelectedState extends State<CCTSelected> {
               ),
             )
           ],
-        ),
+        )),
       ),
     );
   }

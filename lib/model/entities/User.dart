@@ -37,7 +37,7 @@ class User {
     nome      = dados['nome'];
     sobrenome = dados['sobrenome'];
     email     = dados['email'];
-    telefone  = dados['telefone'];
+    telefone  = dados['telefone'] ?? "";
   }
 
   void setSocioMapDB(Map dados){
@@ -56,15 +56,15 @@ class User {
   }
 
   void setSocioMap(Map dados){
-    socio.setCargo(dados['cargo']);
-    socio.setDataAdmissao(dados['data_admissao']);
-    socio.setDataEn(dados['data_en']);
-    socio.setDataAdmissao(dados['data_nascimento']);
-    socio.setDataEn(dados['data_nascimento_en']);
+    socio.setCargo(dados['cargo'] ?? "");
+    socio.setDataAdmissao(dados['data_admissao'] ?? "");
+    socio.setDataEn(dados['data_en'] ?? "");
+    socio.setDataAdmissao(dados['data_nascimento'] ?? "");
+    socio.setDataEn(dados['data_nascimento_en'] ?? "");
     socio.setSalt(dados['salt']);
-    socio.setGenero(dados['sexo']);
-    socio.setEstadoCivil(dados['estado_civil']);
-    socio.setEmpresa(dados['empresa']);
+    socio.setGenero(dados['sexo'] ?? "N");
+    socio.setEstadoCivil(dados['estado_civil'] ?? "");
+    socio.setEmpresa(dados['empresa'] ?? "");
     socio.setSlug(dados['slug']);
   }
 

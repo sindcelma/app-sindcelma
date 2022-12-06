@@ -28,7 +28,9 @@ class SocioArea extends StatefulWidget {
 class _SocioAreaState extends State<SocioArea> {
 
   String senha = "";
+  String message = "Aguarde! Estamos verificando a senha...";
   bool loading = false;
+  int count = 0;
 
   void checkRefresh(status){
     if(status){
@@ -40,7 +42,8 @@ class _SocioAreaState extends State<SocioArea> {
     }
   }
 
-  void setLoading(bool status){
+  void setLoading(bool status, String message){
+    this.message = message;
     setState(() {
       loading = status;
     });
@@ -48,7 +51,7 @@ class _SocioAreaState extends State<SocioArea> {
 
   void getKey() async {
 
-    setLoading(true);
+    setLoading(true, "Aguarde! Estamos verificando a senha...");
 
     var request = Request();
 
@@ -67,7 +70,7 @@ class _SocioAreaState extends State<SocioArea> {
       }
     }
 
-    setLoading(false);
+    setLoading(false, "");
   }
 
   void showAlert(String message, {bool error = true}){
@@ -89,7 +92,7 @@ class _SocioAreaState extends State<SocioArea> {
   Widget getWidget(){
 
     if(loading){
-      return const LoadingComponent("Aguarde! Estamos verificando a senha...", false);
+      return LoadingComponent(message, false);
     }
 
     return
@@ -109,7 +112,7 @@ class _SocioAreaState extends State<SocioArea> {
               Navigator.pop(context);
             },
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
                   Icon(
                     Icons.arrow_back,
@@ -125,6 +128,7 @@ class _SocioAreaState extends State<SocioArea> {
             ),
           ),
         ),
+
         const Padding(padding: EdgeInsets.only(top: 20),
           child: Center(
             child: Text('DIGITE SUA SENHA',
@@ -172,6 +176,29 @@ class _SocioAreaState extends State<SocioArea> {
     return ListView(
       children: [
         Padding(
+          padding: const EdgeInsets.all(10),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.arrow_back,
+                    color: Colors.red,
+                  ),
+                  Text("voltar",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18
+                    ),
+                  )
+                ]
+            ),
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.all(20),
           child: CircleAvatar(
               radius: 50.0,
@@ -209,23 +236,32 @@ class _SocioAreaState extends State<SocioArea> {
             "alterar imagem",
             const Icon(Icons.camera_alt_outlined,
               color: Colors.red,
-            ),
-                ()=> showActivity(
-                CameraFile(
-                    onRespose: (status, refresh) {
-                      checkRefresh(refresh);
-                      if(status) {
-                        showAlert('Imagem alterada com sucesso. Reinicie o aplicativo.', error: false);
-                        setState(() {});
-                      } else {
-                        if(!refresh){
-                          showAlert('Ocorreu um erro ao tentar alterar a imagem');
+            ), () {
+              setLoading(true, "alterando imagem, aguarde!");
+              showActivity(
+                  CameraFile(
+                      onBack: (){
+                        setLoading(false, "");
+                      },
+                      loading: false,
+                      onRespose: (status, refresh) {
+                        setLoading(false, "");
+                        checkRefresh(refresh);
+                        setState(() {
+                          count++;
+                        });
+                        if(status) {
+                          showAlert('Imagem alterada com sucesso.', error: false);
+                        } else {
+                          if(!refresh){
+                            showAlert('Ocorreu um erro ao tentar alterar a imagem');
+                          }
                         }
-                      }
-                    },
-                    type: ImageType.fotoArquivo
-                )
-            )
+                      },
+                      type: ImageType.fotoArquivo
+                  )
+              );
+            }
         ),
         BtnIcon(
             TypeColor.primary,

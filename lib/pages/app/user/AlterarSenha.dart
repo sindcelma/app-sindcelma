@@ -73,6 +73,29 @@ class _AlterarSenhaState extends State<AlterarSenha> {
     return Scaffold(
       body: ListView(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Icon(
+                      Icons.arrow_back,
+                      color: Colors.red,
+                    ),
+                    Text("voltar",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 18
+                      ),
+                    )
+                  ]
+              ),
+            ),
+          ),
           const Padding(padding: EdgeInsets.all(10),
             child:  Icon(Icons.email_outlined,
               color: Colors.red,

@@ -19,6 +19,13 @@ class CadastrarEmailSenha extends StatelessWidget {
   CadastrarEmailSenha(this.response, this.cpf, this.onError, {Key? key}) : super(key: key);
 
   void salvarEmailESenha() async {
+
+    if(senha != confirmSenha || email != confirmEmail){
+      onError("Email ou senha não são iguais");
+      return;
+    }
+
+
     var request = Request();
     await request.post('/user/create', {
       'email':email,

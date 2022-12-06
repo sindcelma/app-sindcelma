@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sindcelma_app/components/Firewall.dart';
 import 'package:sindcelma_app/pages/app/sorteios/SorteioWidget.dart';
 
 import '../../../model/Request.dart';
@@ -112,9 +113,9 @@ class _SorteioFullState extends State<SorteioFull> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.green,
-        body: ListView(
+        body: Firewall(child: ListView(
           children: itens,
-        ),
+        ), onCheckMessage: () => Navigator.pop(context)),
       ),
     );
   }

@@ -52,7 +52,7 @@ class _LoginAreaState extends State<LoginArea> {
         children: [
           Align(
             alignment: AlignmentDirectional.topCenter,
-            child: Container(
+            child: SizedBox(
               height: 100,
               child: Image.asset('assets/logo_horizontal.png',
                 height: 200,

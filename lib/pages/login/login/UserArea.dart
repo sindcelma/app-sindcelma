@@ -23,17 +23,26 @@ class UserArea extends StatelessWidget {
     });
 
     if(request.code() != 200){
-     onError("Não há um associado cadastrado com este e-mail ou CPF");
+     onError("Não há um associado cadastrado com este e-mail, NP ou CPF");
       return;
     }
 
     var res   = request.response()['message'];
-    if(res['email'] == false){
-      response("", false, res['cpf']);
-    } else {
-      response(res['email'], true, res['cpf']);
+    if(res['cpf'] == false){
+      if(res['np'] == false){
+        onError("Não há um associado cadastrado com este e-mail, NP ou CPF");
+        return;
+      }
+      response("", false, "", false, res['np'].toString());
+      return;
     }
 
+    if(res['email'] == false){
+      response("", false, res['cpf'], true, "");
+      return;
+    }
+
+    response(res['email'], true, res['cpf'], true, "");
 
   }
 
@@ -50,7 +59,7 @@ class UserArea extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Input(
-              label: 'e-mail ou CPF',
+              label: 'E-mail, NP ou CPF',
               value: "",
               onChanged: (str, status){
                 doc = str;
