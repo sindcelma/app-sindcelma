@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/model/Request.dart';
+import 'package:sindcelma_app/model/services/UserManagerService.dart';
 
 import '../../../components/Btn.dart';
+import '../../../components/HeaderActivity.dart';
 import '../../../components/Input.dart';
 import '../../../themes.dart';
 
@@ -11,11 +13,12 @@ class ResetPassword extends StatelessWidget {
   Function onError;
   String codigo;
   String email;
+  bool showLogo;
 
   String senha = "";
   String confirm = "";
 
-  ResetPassword(this.response, this.onError, this.email, this.codigo, {Key? key}) : super(key: key);
+  ResetPassword(this.response, this.onError, this.email, this.codigo, this.showLogo, {Key? key}) : super(key: key);
 
   void salvarNovaSenha() async {
     if(senha != confirm){
@@ -31,13 +34,42 @@ class ResetPassword extends StatelessWidget {
       onError("Ocorreu um erro no servidor");
       return;
     }
-    response();
+    UserManagerService().reset();
+    Request.reloadApp();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        showLogo
+            ? const HeaderActivity()
+            : Container(),
+        const Padding(
+          padding: EdgeInsets.all(20),
+          child: Text("Esqueci minha senha:", style: TextStyle(
+            fontSize: 20,
+          ),),
+        ),
+        Container(
+          color: Colors.red,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: const [
+                Center(
+                  child: Text('O APLICATIVO SERÁ REINICIADO APÓS ALTERAÇÂO DA SENHA',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Oswald',
+                        fontSize: 18
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         const Padding(
           padding: EdgeInsets.all(20),
           child: Text("Crie uma nova senha:", style: TextStyle(

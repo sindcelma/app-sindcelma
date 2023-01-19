@@ -38,9 +38,6 @@ class Firewall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if(User().status == 1){
-      // ele é um visitante
-    }
     int statusSocio = User().socio.status;
     switch(statusSocio){
       case 0:

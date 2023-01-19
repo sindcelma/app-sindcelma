@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
+import 'package:sindcelma_app/model/services/FirebaseService.dart';
 import 'package:sindcelma_app/model/services/UserManagerService.dart';
 import 'package:sindcelma_app/pages/app/carteirinha/CarteirinhaSocio.dart';
 import 'package:sindcelma_app/pages/app/ccts/CCTList.dart';
@@ -31,11 +32,8 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
 
-    print(User().status);
-
-    if(User().status > 1){
-
-    }
+    FirebaseService();
+    FirebaseService();
 
     return MaterialApp(
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),

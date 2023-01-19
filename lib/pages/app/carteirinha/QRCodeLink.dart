@@ -39,8 +39,7 @@ class _QRCodeLinkState extends State<QRCodeLink> {
     var bytes    = utf8.encode(key);
     var hash     = sha256.convert(bytes);
 
-    var link     = "${Config.getUrl('/socio_verify/')}${base64.encode(utf8.encode(data))}.$hash";
-    print(link);
+    var link     = "${Config.getUrlAPIString('/socio_verify/')}${base64.encode(utf8.encode(data))}.$hash";
     return link;
 
   }
@@ -53,7 +52,6 @@ class _QRCodeLinkState extends State<QRCodeLink> {
           setState(() {
             sec = 30;
             data = generateData();
-
           });
         }
       } else {
@@ -89,23 +87,27 @@ class _QRCodeLinkState extends State<QRCodeLink> {
             ),
           ),
         ),
-        /*
+
         // implementar botão para link
         Padding(padding: const EdgeInsets.all(20),
-          child: BtnIconOutline(
+          child: BtnIcon(
             TypeColor.secondary,
             "Verificar",
-            const Icon(Icons.open_in_new),
+            const Icon(Icons.open_in_new,
+              color: Colors.green,
+            ),
               () async {
                 final Uri url = Uri.parse(data);
-                if (await canLaunchUrl(url)) {
-                  await launchUrl(url);
-                } else {
-                  print("Nao é possivel");
+                //final Uri url = Uri.parse("http://www.sindcelmatecnologia.com.br");
+                try {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                } catch (e) {
+                  print(e.toString());
                 }
               }
           ),)
-          */
+
+
 
       ],
     );

@@ -45,6 +45,8 @@ class _CCTHomeLinkState extends State<CCTHomeLink> {
       return;
     }
 
+    if(request.response()['message'].isEmpty) return;
+
     var response = request.response()['message'][0];
     title = response['titulo'];
     id = response['id'];

@@ -1,15 +1,45 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:sindcelma_app/model/entities/InfoApp.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
+import 'package:sindcelma_app/pages/Atualizar.dart';
 import 'package:sindcelma_app/pages/app/app.dart';
 import 'package:sindcelma_app/pages/loading.dart';
 import 'package:sindcelma_app/pages/login/login.dart';
 
 import 'components/AddDocumentsActivity.dart';
+import 'firebase_options.dart';
 import 'model/Request.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.notification?.title}");
+}
 
-void main() {
-  runApp(SindcelmaApp(page: 'loading'));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+    print(message.notification);
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification!.title}');
+    }
+  });
+
+  runApp(
+      SindcelmaApp(page: 'loading')
+  );
 }
 
 class SindcelmaApp extends StatefulWidget {
@@ -41,7 +71,11 @@ class _SindcelmaAppState extends State<SindcelmaApp> {
   @override
   Widget build(BuildContext context) {
 
-    if(widget.page == 'login'){
+    if(widget.page == 'atualizar'){
+      return MaterialApp(
+        home: Atualizar(onResponse),
+      );
+    } else if(widget.page == 'login'){
       return LoginPage(onResponse, subpage: widget.subpage,);
     } else if(widget.page == 'loading'){
       return LoadingPage(onResponse);
@@ -62,13 +96,18 @@ class _SindcelmaAppState extends State<SindcelmaApp> {
     }
   }
 
-  void onResponse(bool status, {bool loading = false}){
+  void onResponse(bool status, {bool atualizar = false, bool loading = false, InfoApp? info}){
     // user status = 1 // significa que é um visitante
     // user status = 2 // significa que é um sócio e precisa do token dele
     // user status = 3 // significa que é sócio e tem o token
     // user status = 0 // va para area de login
 
     setState(() {
+
+      if(atualizar){
+        widget.page = 'atualizar';
+        return;
+      }
 
       if(loading){
         widget.page = 'loading';

@@ -24,6 +24,13 @@ class DatabaseService {
       version: 1,
       onCreate: (db, version) async {
         await db.execute('''
+          CREATE TABLE IF NOT EXISTS firebase (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              device_token TEXT NOT NULL
+          )
+        '''
+        );
+        await db.execute('''
           CREATE TABLE IF NOT EXISTS user (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               nome TEXT NOT NULL,

@@ -5,6 +5,8 @@ import 'package:sindcelma_app/pages/app/SejaSocio.dart';
 import 'package:sindcelma_app/pages/app/ccts/CCTHomeLink.dart';
 import 'package:sindcelma_app/pages/app/sorteios/SorteioWidget.dart';
 import 'package:sindcelma_app/themes.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/AlertMessage.dart';
 import '../../model/Config.dart';
@@ -76,6 +78,15 @@ class _HomeState extends State<Home> {
       sorteio.setSorteioStatus(true);
     });
   }
+  
+  void acess(String uri) async {
+    final Uri url = Uri.parse(uri);
+    try {
+      await launchUrl(url,mode: LaunchMode.externalApplication);
+    } catch (e) {
+      print("silencio... tem um erro acontecendo");
+    }
+  }
 
   void carregarNotification() async {
     setNotification("2");
@@ -111,7 +122,7 @@ class _HomeState extends State<Home> {
                               User().status < 2
                               ? Image.asset('assets/user_icon.png', color: Colors.white,)
                               : Image.network(
-                                  Config.getUrl("/images/fav/${User().email}.jpg"),
+                                  Config.getUrlAssetString("/images/fav/${User().email}.jpg"),
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.cover,
@@ -165,7 +176,55 @@ class _HomeState extends State<Home> {
             selected: false,
             onTap: () => Navigator.pushNamed(context, '/sorteios'),
           ),
-
+          const Divider(
+            height: 1,
+            thickness: 1,
+          ),
+          const Padding(padding: EdgeInsets.all(10),
+            child: Center(
+              child: Text("Acesse:", style: TextStyle(
+                fontFamily: 'Calibri',
+                fontWeight: FontWeight.bold,
+              ),),
+            ),
+          ),
+          TextButton(
+              onPressed: () => acess("https://www.sindcelma.com.br/"),
+              child: const Text("sindcelma.com.br", style: TextStyle(
+                color: Colors.red,
+                fontFamily: 'Calibri',
+                fontWeight: FontWeight.bold,
+                fontSize: 20
+              ),),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: IconButton(
+                    icon: const FaIcon(FontAwesomeIcons.facebookSquare,
+                      size: 40,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () async {
+                      acess("https://www.facebook.com/sindcelmacelulosepapel");
+                    }
+                ),
+              ),
+              Center(
+                child: IconButton(
+                  icon: const FaIcon(FontAwesomeIcons.instagramSquare,
+                    size: 40,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () async {
+                    acess("https://www.instagram.com/sindcelmacelulosepapel/");
+                  }
+                ),
+              )
+            ],
+          )
         ],
       )
     );

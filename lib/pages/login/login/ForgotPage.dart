@@ -9,8 +9,9 @@ import '../../../components/AlertMessage.dart';
 class ForgotPage extends StatefulWidget {
 
   Function response;
+  bool showLogo;
 
-  ForgotPage(this.response, {Key? key}) : super(key: key);
+  ForgotPage(this.response, { this.showLogo = false, Key? key}) : super(key: key);
 
   @override
   State<ForgotPage> createState() => _ForgotPageState();
@@ -34,27 +35,25 @@ class _ForgotPageState extends State<ForgotPage> {
 
   @override
   Widget build(BuildContext context) {
+
     pages = [
       SendEmail((email){
         setState(() {
           this.email = email;
           keyPage++;
         });
-      }, onError),
+      }, onError, widget.showLogo),
       CodeArea((novoCodigo){
         setState(() {
           codigo = novoCodigo;
           keyPage++;
         });
-      }, onError, email),
+      }, onError, email, widget.showLogo),
       ResetPassword((){
         setState(() {
           keyPage++;
         });
-      }, onError, email, codigo),
-      MessageSuccessCode((){
-        widget.response();
-      })
+      }, onError, email, codigo, widget.showLogo)
     ];
     return pages[keyPage];
   }

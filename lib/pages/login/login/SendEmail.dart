@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sindcelma_app/components/HeaderActivity.dart';
 import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
 
@@ -10,8 +11,9 @@ class SendEmail extends StatelessWidget {
 
   final Function response;
   final Function onError;
+  final bool showLogo;
 
-  SendEmail(this.response, this.onError, {Key? key}) : super(key: key);
+  SendEmail(this.response, this.onError, this.showLogo, {Key? key}) : super(key: key);
 
   String _cpf = "";
 
@@ -26,6 +28,7 @@ class SendEmail extends StatelessWidget {
 
     if(request.code() != 200){
       onError("Este CPF não está cadastrado em nosso banco de dados");
+      return;
     }
 
     String email = request.response()['message']['email'];
@@ -37,6 +40,9 @@ class SendEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        showLogo
+            ? const HeaderActivity()
+            : Container(),
         const Padding(
           padding: EdgeInsets.all(20),
           child: Text("Esqueci minha senha:", style: TextStyle(

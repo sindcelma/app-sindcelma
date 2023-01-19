@@ -163,7 +163,7 @@ class _SocioAreaState extends State<SocioArea> {
                   home: Scaffold(
                     body: ForgotPage((){
 
-                    }),
+                    }, showLogo: true,),
                   ),
                 )
               );
@@ -379,7 +379,7 @@ class _SocioAreaState extends State<SocioArea> {
       User().status < 2
       ? Image.asset('assets/user_icon.png', color: Colors.white,)
       : Image.network(
-        Config.getUrl("/images/fav/${User().email}.jpg"),
+        Config.getUrlAssetString("/images/fav/${User().email}.jpg"),
         width: 90,
         height: 90,
         fit: BoxFit.cover

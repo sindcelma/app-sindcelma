@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:sindcelma_app/components/camera/FotoArquivo.dart';
 import 'package:sindcelma_app/components/camera/SelfieComDoc.dart';
 import 'package:sindcelma_app/components/camera/SelfieSemDoc.dart';
@@ -45,9 +47,17 @@ class _CameraFileState extends State<CameraFile> {
 
   void onFile(File file) async {
 
-    String ext = path.extension(file.path).split('.')[1];
+    ImageProperties properties = await FlutterNativeImage.getImageProperties(file.path);
+    int divider = (properties.width! / 800).ceil();
+    File result = await FlutterNativeImage.compressImage(
+        file.path,
+        targetWidth: (properties.width! / divider).ceil(),
+        targetHeight: (properties.height! / divider).ceil(),
+    );
 
-    List<int> imageBytes = file.readAsBytesSync();
+    String ext = path.extension(result.path).split('.')[1];
+
+    List<int> imageBytes = result.readAsBytesSync();
     String base64Image = base64Encode(imageBytes);
     // muda o estado para loading
     if(widget.loading){
@@ -57,12 +67,12 @@ class _CameraFileState extends State<CameraFile> {
     }
 
     // upload do arquivo aqui
-
+    var dir = getType();
     var createGhostRequest = Request();
-    await createGhostRequest.post('/files/create', {
+    await createGhostRequest.post('/api/socio_file/create', {
       "ext": ext,
-      "type": getType()
-    });
+      "dir": dir
+    }, uploadFile: true);
     
     if(createGhostRequest.code() != 200) {
       setState(() {
@@ -89,10 +99,12 @@ class _CameraFileState extends State<CameraFile> {
       String dataS = base64Image.substring(atual, parteFinal);
 
       var appendFile = Request();
-      await appendFile.post('/files/append', {
+      await appendFile.post('/api/socio_file/append', {
         "data":dataS,
-        "slug":slug
-      });
+        "slug":slug,
+        "ext": ext,
+        "dir": dir
+      }, uploadFile: true);
 
       if(appendFile.code() != 200){
         setState(() {
@@ -106,9 +118,11 @@ class _CameraFileState extends State<CameraFile> {
     }
 
     var commitRequest = Request();
-    await commitRequest.post('/files/commit', {
-      "slug":slug
-    });
+    await commitRequest.post('/api/socio_file/commit', {
+      "slug":slug,
+      "ext": ext,
+      "dir": dir
+    }, uploadFile: true);
 
     if(widget.loading){
       setState(() {

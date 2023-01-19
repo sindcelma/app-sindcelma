@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/Btn.dart';
-import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
 import 'package:sindcelma_app/model/services/UserManagerService.dart';
 import 'package:sindcelma_app/pages/login/CadastrarSocio.dart';

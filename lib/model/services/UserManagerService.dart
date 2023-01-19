@@ -73,6 +73,7 @@ class UserManagerService {
     Database db = await DatabaseService().db;
 
     try {
+
       db.delete("socio");
       db.delete("user");
       db.execute("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='user';");

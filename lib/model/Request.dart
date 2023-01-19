@@ -34,7 +34,7 @@ class Request {
 
       var response = jsonDecode(utf8.decode(res.bodyBytes));
       var code = res.statusCode;
-
+      print(response);
       if(code == 200){
         var r = response['message'];
         User().socio.setSession(r['session']);
@@ -81,11 +81,12 @@ class Request {
 
   }
 
-  Future<bool> post(String uri, Map<String, dynamic> body) async {
+  Future<bool> post(String uri, Map<String, dynamic> body, { bool uploadFile = false }) async {
 
     if(session != "") {
       body['session'] = session;
     }
+
     int count = 5;
     while(!User().atualizado){
       if(count == 0) {
@@ -95,15 +96,18 @@ class Request {
       await Future.delayed(const Duration(seconds: 2));
       count--;
     }
-    var res = await http.post(Config.getUrlAPI(uri),headers: {"Content-Type": "application/json"}, body:jsonEncode(body));
-    _response = jsonDecode(utf8.decode(res.bodyBytes));
 
+    Uri _uri = uploadFile ? Config.getUrlAsset(uri) : Config.getUrlAPI(uri);
+
+    var res = await http.post(_uri, headers: {"Content-Type": "application/json"}, body:jsonEncode(body));
+    _response = jsonDecode(utf8.decode(res.bodyBytes));
     if(_response.containsKey('session')){
       session = _response['session'];
     }
     _code = res.statusCode;
 
     if(res.statusCode == 401){
+      await UserManagerService().reset();
       onReload!();
     }
 

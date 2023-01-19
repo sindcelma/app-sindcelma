@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/LoadingComponent.dart';
 import 'package:sindcelma_app/model/Request.dart';
+import 'package:sindcelma_app/model/entities/InfoApp.dart';
+import 'package:sindcelma_app/model/services/InfoService.dart';
 import 'package:sindcelma_app/model/services/UserManagerService.dart';
 import 'package:sindcelma_app/model/services/SocioManagerService.dart';
 
@@ -46,6 +48,8 @@ class _LoadingPageState extends State<LoadingPage> {
 
     showAlert();
 
+    InfoApp infoApp = await InfoService().getInfo();
+
     if(!steps[0]){
       bool status = await UserManagerService().generateUser();
       steps[0] = status;
@@ -65,7 +69,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
     loaded = true;
 
-    widget.onResponse(User().socio.status != 1);
+    widget.onResponse(User().socio.status != 1, atualizar:!infoApp.isAtualizado());
 
   }
 

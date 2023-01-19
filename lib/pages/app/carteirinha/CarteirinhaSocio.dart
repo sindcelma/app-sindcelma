@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/pages/app/carteirinha/QRCodeLink.dart';
 import '../../../model/Config.dart';
 import '../../../model/entities/User.dart';
@@ -12,6 +13,92 @@ class CarteirinhaSocio extends StatefulWidget {
 }
 
 class _CarteirinhaSocioState extends State<CarteirinhaSocio> {
+
+  String _cpf = "";
+  int _status = 0;
+  int att = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setDadosPessoais();
+  }
+
+  void atualizar(){
+    setState(() {
+      att++;
+    });
+  }
+
+  void setDadosPessoais() async {
+
+    var request = Request();
+
+    await request.post('/user/socios/get_doc_carteirinha', {
+      "slug":User().socio.getSlug()
+    });
+
+    var response = request.response()['message'][0];
+    print(response);
+
+    _cpf = response['cpf'] ?? "";
+    _status = response['status'] ?? "";
+    atualizar();
+
+  }
+
+  TextStyle label(){
+    return const TextStyle(
+        fontSize: 12,
+        fontFamily: 'Oswald',
+        fontWeight: FontWeight.bold
+    );
+  }
+
+  TextStyle texto(){
+    return const TextStyle(
+      fontSize: 18,
+      fontFamily: 'Calibri'
+    );
+  }
+
+  Widget textStatus(int status){
+
+    switch(status){
+      case 0: return Container();
+      case 1:
+        return const Text("Está faltando imagens",
+          style: TextStyle(
+            color: Colors.orange,
+            fontFamily: 'Oswald'
+          ),
+        );
+      case 2:
+        return const Text("aguardando aprovação",
+          style: TextStyle(
+              color: Colors.orange,
+              fontFamily: 'Oswald'
+          ),
+        );
+      case 3:
+        return Text("ativo",
+          style: TextStyle(
+              color: Colors.green.shade900,
+              fontFamily: 'Oswald',
+            fontSize: 20
+          ),
+        );
+      default:
+        return const Text("Inativo",
+          style: TextStyle(
+              color: Colors.red,
+              fontFamily: 'Oswald'
+          ),
+        );
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +157,7 @@ class _CarteirinhaSocioState extends State<CarteirinhaSocio> {
                     backgroundColor: SindcelmaTheme.color_primary,
                     child: ClipOval(
                       child: Image.network(
-                          Config.getUrl("/images/fav/${User().email}.jpg"),
+                          Config.getUrlAssetString("/images/fav/${User().email}.jpg"),
                           width: 120,
                           height: 120,
                           fit: BoxFit.cover
@@ -88,11 +175,17 @@ class _CarteirinhaSocioState extends State<CarteirinhaSocio> {
                           fontFamily: 'Oswald'
                       )
                   ),
-                  Text(User().email),
+                  Text("email", style: label(),),
+                  Text(User().email, style: texto(),),
+                  Text("CPF", style: label(),),
+                  Text(_cpf, style: texto(),),
+                  textStatus(_status)
+                  /*
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 0, left: 30, right: 30),
                     child: Text(User().socio.getSlug()),
                   ),
+                   */
                 ],
               ),
             ),
