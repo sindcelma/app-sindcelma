@@ -74,6 +74,7 @@ class UserManagerService {
 
     try {
 
+      db.delete("firebase");
       db.delete("socio");
       db.delete("user");
       db.execute("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='user';");
