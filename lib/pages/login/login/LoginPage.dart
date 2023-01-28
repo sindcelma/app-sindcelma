@@ -52,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if(request.code() != 200){
       showError("Email/CPF ou senha estão incorretos");
+      setState(() {});
       return;
     }
 
@@ -75,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         }
         this.senha = senha;
         logar();
-      });
+      }, loading: false,);
 
       case 2: return CadastrarEmailSenha((email, senha){
         this.email = email;

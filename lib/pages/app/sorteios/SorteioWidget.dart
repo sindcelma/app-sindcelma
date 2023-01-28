@@ -28,22 +28,32 @@ class _SorteioWidgetState extends State<SorteioWidget> {
   String strhoras = "";
   String strminutos = "";
   String strsegundos = "";
+  String errorMessage = "";
 
   bool podeInscrever = false;
+  bool isLoading = false;
 
   void refresh(){
     setState(() {});
   }
 
   void inscreverse() async {
+    setState(() {
+      isLoading = true;
+    });
     var request = Request();
     await request.post('/sorteios/inscricao', {
       "sorteio_id": widget.sorteio.id()
     });
     if(request.code() == 200){
       widget.sorteio.inscrito = true;
-      return refresh();
+      errorMessage = "";
+    } else {
+      errorMessage = request.response()['message'];
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Widget btnAtual = Container();
@@ -93,6 +103,19 @@ class _SorteioWidgetState extends State<SorteioWidget> {
           fontFamily: 'Oswald',
           fontSize: 30,
           color: Colors.limeAccent
+      ),
+    ),
+  );
+
+  Widget btnLoading = Padding(
+    padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+    child: Container(
+      width: 24,
+      height: 24,
+      padding: const EdgeInsets.all(2.0),
+      child: const CircularProgressIndicator(
+        color: Colors.white,
+        strokeWidth: 3,
       ),
     ),
   );
@@ -198,8 +221,10 @@ class _SorteioWidgetState extends State<SorteioWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(widget.sorteio.vencedor){
+    if(isLoading){
+      btnAtual = btnLoading;
+    }
+    else if(widget.sorteio.vencedor){
       btnAtual = infoVencedor;
     }
     else if(widget.sorteio.inscrito){
@@ -394,7 +419,19 @@ class _SorteioWidgetState extends State<SorteioWidget> {
                     child: btnAtual,
                   ),
                 )
-              : btnAtual
+              : btnAtual,
+          errorMessage != "" ? Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Container(
+              color: Colors.red[900],
+              child: Padding(padding: const EdgeInsets.all(10),
+                child: Text(errorMessage, style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white
+                ),),
+              ),
+            ),
+          ) : Container()
         ],
       ),
     );

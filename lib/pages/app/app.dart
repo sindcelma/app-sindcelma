@@ -9,6 +9,7 @@ import 'package:sindcelma_app/pages/app/home.dart';
 import 'package:sindcelma_app/pages/app/notifications/notification.dart';
 import 'package:sindcelma_app/pages/app/sorteios/SorteioList.dart';
 
+import 'noticias/NoticiasList.dart';
 import 'user/SocioArea.dart';
 
 class App extends StatefulWidget {
@@ -33,7 +34,6 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
 
     FirebaseService();
-    FirebaseService();
 
     return MaterialApp(
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
@@ -47,7 +47,7 @@ class _AppState extends State<App> {
         '/': (context) => Home(() => onClose()),
         '/notifications': (context) => Notifications(),
         '/user': (context) => const SocioArea(),
-        //'/noticias': (context) => {},
+        '/noticias': (context) => const NoticiasList(),
         '/carteirinha': (context) => const CarteirinhaSocio(),
         '/sorteios': (context) => const SorteioList(),
         '/ccts': (context) => const CCTList()

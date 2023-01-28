@@ -34,7 +34,7 @@ class Request {
 
       var response = jsonDecode(utf8.decode(res.bodyBytes));
       var code = res.statusCode;
-      print(response);
+
       if(code == 200){
         var r = response['message'];
         User().socio.setSession(r['session']);
@@ -98,13 +98,21 @@ class Request {
     }
 
     Uri _uri = uploadFile ? Config.getUrlAsset(uri) : Config.getUrlAPI(uri);
-
+    //print('------------------------------------------------------------------------');
+    //print(_uri);
+    //print('------------------------------------------------------------------------');
     var res = await http.post(_uri, headers: {"Content-Type": "application/json"}, body:jsonEncode(body));
     _response = jsonDecode(utf8.decode(res.bodyBytes));
+
     if(_response.containsKey('session')){
       session = _response['session'];
     }
     _code = res.statusCode;
+
+    //print('------------------------------------------------------------------------');
+    //print("code > ${res.statusCode}");
+    //print("message > $_response");
+    //print('------------------------------------------------------------------------');
 
     if(res.statusCode == 401){
       await UserManagerService().reset();

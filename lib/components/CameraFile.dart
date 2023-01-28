@@ -9,6 +9,7 @@ import 'package:sindcelma_app/components/camera/SelfieComDoc.dart';
 import 'package:sindcelma_app/components/camera/SelfieSemDoc.dart';
 import 'package:sindcelma_app/model/Request.dart';
 import 'package:path/path.dart' as path;
+import 'package:sindcelma_app/model/entities/User.dart';
 import 'camera/SendingImageLoading.dart';
 
 enum ImageType {
@@ -130,7 +131,23 @@ class _CameraFileState extends State<CameraFile> {
       });
     }
 
-    widget.onRespose(commitRequest.code() == 200, false);
+    var status = commitRequest.code() == 200;
+
+    if(status){
+
+      var linkImage = commitRequest.response()['message'];
+      var reqSaveDt = Request();
+
+      await reqSaveDt.post('/user/socios/save_image', {
+        "slug":User().socio.getSlug(),
+        "link":linkImage,
+        "type":getType()
+      });
+
+      status = reqSaveDt.code() == 200;
+    }
+
+    widget.onRespose(status, false);
 
   }
 

@@ -10,8 +10,8 @@ String getPrincipalVersion(String v){
 }
 
 bool compareVersion(String versionAtual, Map versionCloud){
-  return getPrincipalVersion(versionAtual)
-      == getPrincipalVersion(versionCloud['app_version']);
+  return double.parse(getPrincipalVersion(versionAtual))
+      >= double.parse(getPrincipalVersion(versionCloud['app_version']));
 }
 
 

@@ -39,10 +39,6 @@ class NotificationService {
     );
   }
 
-  _setupNotifications() async {
-    await _initializeNotifications();
-  }
-
 
   _initializeNotifications() async {
     await localNotificationsPlugin.initialize(

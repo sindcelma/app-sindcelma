@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/Btn.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
 import 'package:sindcelma_app/pages/app/SejaSocio.dart';
 import 'package:sindcelma_app/pages/app/ccts/CCTHomeLink.dart';
+import 'package:sindcelma_app/pages/app/noticias/NoticiaHome.dart';
 import 'package:sindcelma_app/pages/app/sorteios/SorteioWidget.dart';
 import 'package:sindcelma_app/themes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../components/AlertMessage.dart';
 import '../../model/Config.dart';
 import '../../model/Request.dart';
+import '../../model/entities/Noticia.dart';
 import '../../model/entities/Sorteio.dart';
 
 class Home extends StatefulWidget {
@@ -31,11 +35,14 @@ class _HomeState extends State<Home> {
   Color colorIcon = Colors.black54;
   Widget textNotification = const Text("");
 
+  Noticia? noticiaHome;
+
   @override
   void initState() {
     super.initState();
     carregarSorteio();
     carregarNotification();
+    carregarUltimaNoticia();
   }
 
   void showAlert(String message, {bool error = true}){
@@ -43,6 +50,24 @@ class _HomeState extends State<Home> {
         AlertMessage(type: error ? 'error' : 'success', message: message)
             .alert()
     );
+  }
+
+  void carregarUltimaNoticia() async {
+    var request = Request();
+    await request.get('/noticias/last');
+    if(request.code() != 200){
+      return;
+    }
+    var resp = request.response()['message'];
+    noticiaHome = Noticia(
+        id: resp[0]['id'],
+        titulo: resp[0]['titulo'],
+        subtitulo: resp[0]['subtitulo'],
+        imagem: resp[0]['imagem'],
+        data: resp[0]['data_created']
+    );
+
+    setState(() {});
   }
 
   void carregarSorteio() async {
@@ -162,7 +187,7 @@ class _HomeState extends State<Home> {
             leading: const Icon(Icons.feed_outlined, size: 30,),
             title: const Text('Noticias'),
             selected: false,
-            onTap: () => {},
+            onTap: () => Navigator.pushNamed(context, '/noticias'),
           ),
           ListTile(
             leading: const Icon(Icons.book_outlined, size: 30,),
@@ -318,12 +343,27 @@ class _HomeState extends State<Home> {
   }
 
   List<Widget> loadingHome() {
+
     List<Widget> lista = [];
+
+    /// add noticias
+    final noticiaHome = this.noticiaHome;
+    if(noticiaHome != null) {
+      lista.add(NoticiaHome(
+          img: noticiaHome.imagem,
+          titulo: noticiaHome.titulo,
+          subtitulo: noticiaHome.subtitulo,
+          id: noticiaHome.id,
+          data: noticiaHome.data,
+        )
+      );
+    }
+
     if (sorteio.status()) {
       lista.add(SorteioWidget(sorteio));
     }
+
     /// add comunicado
-    /// add noticias
 
     lista.add(
       CCTHomeLink(
