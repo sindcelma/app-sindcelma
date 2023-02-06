@@ -7,12 +7,8 @@ import 'package:sindcelma_app/model/entities/ResponseService.dart';
 class SocioManagerService {
 
   Future<ResponseService> saveSocio() async {
-    
-    User user = User();
 
-    await Request().post('/user/socios/check_document', {
-      'doc': User().socio.getCPF()
-    });
+    User user = User();
 
     var request = Request();
     await request.post('/user/socios/cadastrar_full_socio', {
@@ -31,6 +27,7 @@ class SocioManagerService {
     });
 
     if(request.code() != 200){
+      print("aqui!");
       return ResponseService(false, request.response()['message']);
     }
 

@@ -124,6 +124,9 @@ class _CadastroActivityState extends State<CadastroActivity> {
     ResponseActivity res = await part.checkStatusActivity();
     if(_step == parts.length-1){
       await finalizar();
+      if(!res.status){
+        showAlert('error', res.response);
+      }
     } else {
       if(!res.status){
         showAlert('error', res.response);

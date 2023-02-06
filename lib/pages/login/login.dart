@@ -70,7 +70,7 @@ class OptionsUser extends StatelessWidget {
               child: Btn(
                 TypeButton.elevated,
                 TypeColor.primary,
-                "SOU SÓCIO", () {
+                "ENTRE", () {
                 Navigator.pushNamed(context,'/loginArea');
                 }
             ),
@@ -80,7 +80,7 @@ class OptionsUser extends StatelessWidget {
             child: Btn(
                 TypeButton.elevated,
                 TypeColor.secondary,
-                "QUERO SER SÓCIO", () {
+                "CADASTRE-SE", () {
                   Navigator.pushNamed(context,'/cadastrarSocio');
                 }
             ),

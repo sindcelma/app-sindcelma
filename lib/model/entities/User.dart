@@ -78,6 +78,11 @@ class User {
     };
   }
 
+  bool isMinimal(){
+    print(socio);
+    return true;
+  }
+
   void reset(){
     nome       = "";
     sobrenome  = "";

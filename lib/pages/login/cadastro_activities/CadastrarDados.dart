@@ -126,6 +126,8 @@ class CadastrarDados extends StatelessWidget implements Activity {
       return ResponseActivity(status: false, response: "Este email já está em uso. Tente outro email.");
     }
 
+    User().isMinimal();
+
     bool stat = User().confirm == User().senha && emailStatus;
 
     return ResponseActivity(
