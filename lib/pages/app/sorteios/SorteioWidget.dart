@@ -69,6 +69,17 @@ class _SorteioWidgetState extends State<SorteioWidget> {
     ),
   );
 
+  Widget sorteioFinalizado = Padding(
+    padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+    child: Text("SORTEIO FINALIZADO",
+      style: TextStyle(
+          fontFamily: 'Oswald',
+          fontSize: 25,
+          color: Colors.red.shade900
+      ),
+    ),
+  );
+
   Widget btnInscricao = Container(
     color: Colors.green.shade900,
     child: const Padding(

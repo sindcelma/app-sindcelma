@@ -40,8 +40,6 @@ class _CarteirinhaSocioState extends State<CarteirinhaSocio> {
     });
 
     var response = request.response()['message'][0];
-    print(response);
-
     _cpf = response['cpf'] ?? "";
     _status = response['status'] ?? "";
     atualizar();

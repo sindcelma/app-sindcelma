@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/Btn.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
@@ -40,9 +38,57 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    carregarComunicado();
     carregarSorteio();
     carregarNotification();
     carregarUltimaNoticia();
+  }
+
+  Future carregarComunicado() async {
+
+    var request = Request();
+    await request.get('/comunicados/get_last_active');
+    if(request.code() == 200){
+      var res = request.response()['message'];
+      if(res.length == 1){
+        showComunicado(res[0]);
+      }
+
+    }
+
+  }
+
+  void showComunicado(comunicado){
+    showModalBottomSheet(context: context,
+        isScrollControlled: true,
+        builder: (context) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: BtnIcon(TypeColor.primary, "fechar", const Icon(Icons.close, color: Colors.redAccent,), () { Navigator.pop(context); }),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  comunicado['titulo'],
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Oswald'
+                  ),
+                ),
+            ),
+            Image.network(comunicado['image']),
+            Text(
+                comunicado['texto'],
+                style: const TextStyle(
+                  fontFamily: 'Calibri',
+                  fontSize: 16
+                ),
+            )
+          ],
+        )
+      );
   }
 
   void showAlert(String message, {bool error = true}){
@@ -200,6 +246,12 @@ class _HomeState extends State<Home> {
             title: const Text('Sorteios'),
             selected: false,
             onTap: () => Navigator.pushNamed(context, '/sorteios'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.beach_access, size: 30,),
+            title: const Text('Convênios'),
+            selected: false,
+            onTap: () => Navigator.pushNamed(context, '/convenios'),
           ),
           const Divider(
             height: 1,
@@ -363,8 +415,6 @@ class _HomeState extends State<Home> {
       lista.add(SorteioWidget(sorteio));
     }
 
-    /// add comunicado
-
     lista.add(
       CCTHomeLink(
         onErrorResponse: (message){
@@ -372,7 +422,7 @@ class _HomeState extends State<Home> {
         }
       )
     );
-
+    
     if(User().status == 1){
       lista.add(SejaSocio(() => widget.closeApp()));
     }

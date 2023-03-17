@@ -5,6 +5,7 @@ import 'package:sindcelma_app/model/services/FirebaseService.dart';
 import 'package:sindcelma_app/model/services/UserManagerService.dart';
 import 'package:sindcelma_app/pages/app/carteirinha/CarteirinhaSocio.dart';
 import 'package:sindcelma_app/pages/app/ccts/CCTList.dart';
+import 'package:sindcelma_app/pages/app/convenios/ConveniosList.dart';
 import 'package:sindcelma_app/pages/app/home.dart';
 import 'package:sindcelma_app/pages/app/notifications/notification.dart';
 import 'package:sindcelma_app/pages/app/sorteios/SorteioList.dart';
@@ -50,6 +51,7 @@ class _AppState extends State<App> {
         '/noticias': (context) => const NoticiasList(),
         '/carteirinha': (context) => const CarteirinhaSocio(),
         '/sorteios': (context) => const SorteioList(),
+        '/convenios': (context) => const ConveniosList(),
         '/ccts': (context) => const CCTList()
       },
     );
