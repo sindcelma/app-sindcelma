@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAWetwA0ADQ_zqOUhUpUn1KX4NfaERQ-xU',
-    appId: '1:476075923506:android:1fd79f144212c0ea78842b',
-    messagingSenderId: '476075923506',
-    projectId: 'sindcelma-app-1f97d',
-    storageBucket: 'sindcelma-app-1f97d.appspot.com',
+    apiKey: 'AIzaSyDqGQPhkhAMSFaF-8bCA-RXZ7LMM9esd_Q',
+    appId: '1:406582568408:android:344ff5189b8b077c1bbead',
+    messagingSenderId: '406582568408',
+    projectId: 'sindcelma-app-test',
+    storageBucket: 'sindcelma-app-test.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDov0us_-xpyHk1WHv30aolPOhE7HQCH8g',
-    appId: '1:476075923506:ios:af31c53cc1e05a4978842b',
-    messagingSenderId: '476075923506',
-    projectId: 'sindcelma-app-1f97d',
-    storageBucket: 'sindcelma-app-1f97d.appspot.com',
-    iosClientId: '476075923506-ifnh3b2apls9smnqj8h08numjufce3c7.apps.googleusercontent.com',
+    apiKey: 'AIzaSyA_dK-i1-YMICDlyl3qJ8kvoCTa8Bc9mqM',
+    appId: '1:406582568408:ios:87f97b8256e5bfd91bbead',
+    messagingSenderId: '406582568408',
+    projectId: 'sindcelma-app-test',
+    storageBucket: 'sindcelma-app-test.appspot.com',
+    iosClientId: '406582568408-6rkpvdd74f401pmr17dif75v7qcijioh.apps.googleusercontent.com',
     iosBundleId: 'sindcelma.com.br.sindcelmaApp',
   );
 }

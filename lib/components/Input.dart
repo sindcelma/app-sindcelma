@@ -20,10 +20,11 @@ class Input extends StatefulWidget implements DinamicInput {
   String messageErrorProg = "";
   bool statusSuccess = false;
   bool created = true;
+  bool hideContent;
   Function? functionError;
   _InputState inputState = _InputState();
 
-  Input({Key? key, required this.label, required this.value, required this.onChanged, this.functionError}) : super(key: key);
+  Input({Key? key, required this.label, required this.value, required this.onChanged, this.hideContent = false, this.functionError}) : super(key: key);
 
   @override
   State<Input> createState(){
@@ -59,7 +60,7 @@ class Input extends StatefulWidget implements DinamicInput {
 class _InputState extends State<Input> {
 
   final TextEditingController controller = TextEditingController();
-  Color atualColor = Colors.green;
+  Color atualColor = Colors.black54;
   var _text = "";
   bool started = false;
   bool other_error = false;
@@ -95,6 +96,7 @@ class _InputState extends State<Input> {
     }
 
     return TextField(
+      obscureText: widget.hideContent,
       onChanged: (str){
         widget.created = false;
         started = true;
@@ -111,17 +113,17 @@ class _InputState extends State<Input> {
       ),
       decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
-             borderSide: BorderSide(color: Colors.green),
+             borderSide: BorderSide(color: Colors.black54),
           ),
           border: const OutlineInputBorder(),
           labelText: widget.label,
-          labelStyle: const TextStyle(color: Colors.green),
+          labelStyle: const TextStyle(color: Colors.black54),
           errorText: _error,
-          hintStyle: TextStyle(
-              color: Colors.green[900]
+          hintStyle: const TextStyle(
+              color: Colors.black54
           ),
           focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.green)
+              borderSide: BorderSide(color: Colors.teal)
           )
       ),
     );

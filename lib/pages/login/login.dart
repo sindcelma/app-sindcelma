@@ -39,9 +39,7 @@ class LoginPage extends StatelessWidget {
       routes: {
         '/': (context) => root,
         '/loginArea': (context) => LoginArea(response),
-        '/cadastrarSocio': (context) => CadastrarSocio((){
-          Navigator.pushNamed(context, '/loginArea');
-        }),
+        '/cadastrarSocio': (context) => CadastrarSocio(response),
         '/visitante': (context) => SouVisitante(response)
       },
     );

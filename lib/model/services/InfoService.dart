@@ -17,6 +17,8 @@ bool compareVersion(String versionAtual, Map versionCloud){
 
 class InfoService {
 
+  static bool _wp_noticias = false;
+
   Future<InfoApp> getInfo() async {
 
     InfoApp infoApp = InfoApp();
@@ -26,15 +28,21 @@ class InfoService {
 
     var req = Request();
     await req.get('/info');
-    var res_api = req.response()['message'];
 
-    infoApp.setApiVersion(res_api['api_version']);
-    infoApp.setAppVersion(res_api['app_version']);
-    infoApp.setPackage(res_api['package']);
-    infoApp.setIsAtualized(compareVersion(Config.APP_VERSION, res_api));
+    var resApi = req.response()['message'];
+
+    _wp_noticias = resApi['wp_noticias'];
+    infoApp.setApiVersion(resApi['api_version']);
+    infoApp.setAppVersion(resApi['app_version']);
+    infoApp.setPackage(resApi['package']);
+    infoApp.setIsAtualized(compareVersion(Config.APP_VERSION, resApi));
 
     return infoApp;
 
+  }
+
+  static bool getWpNoticiasStatus(){
+    return _wp_noticias;
   }
 
 }

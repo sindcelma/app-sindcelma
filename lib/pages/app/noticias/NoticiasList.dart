@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/Btn.dart';
-import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/model/entities/Noticia.dart';
+import 'package:sindcelma_app/model/services/NoticiasService.dart';
 import 'package:sindcelma_app/pages/app/noticias/NoticiaHome.dart';
 import 'package:sindcelma_app/pages/app/noticias/NoticiaItemList.dart';
 import 'package:sindcelma_app/themes.dart';
+
 
 class NoticiasList extends StatefulWidget {
 
@@ -31,12 +32,12 @@ class _NoticiasListState extends State<NoticiasList> {
 
   generateNoticias() async {
 
-    var request = Request();
-    var obj = search != "" ? {
-      "search":search
-    }:{ "nada":"nada" };
-    await request.post('/noticias/list/$page', obj);
-    var resp = request.response()['message'];
+    var resp = await NoticiasService.list(page: page);
+    if(resp != false) {
+      setState(() {
+        isLoading = false;
+      });
+    }
 
     hasMore = resp.length > 0;
 

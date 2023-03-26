@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/Btn.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
+import 'package:sindcelma_app/model/services/NoticiasService.dart';
 import 'package:sindcelma_app/pages/app/SejaSocio.dart';
 import 'package:sindcelma_app/pages/app/ccts/CCTHomeLink.dart';
 import 'package:sindcelma_app/pages/app/noticias/NoticiaHome.dart';
@@ -99,12 +100,9 @@ class _HomeState extends State<Home> {
   }
 
   void carregarUltimaNoticia() async {
-    var request = Request();
-    await request.get('/noticias/last');
-    if(request.code() != 200){
-      return;
-    }
-    var resp = request.response()['message'];
+
+    var resp = await NoticiasService.last();
+
     noticiaHome = Noticia(
         id: resp[0]['id'],
         titulo: resp[0]['titulo'],
@@ -338,11 +336,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       drawer: drawer(),
       appBar: AppBar(
         actions: [
-          TextButton.icon(
+          User().status > 1 ? TextButton.icon(
               onPressed: () => Navigator.pushNamed(context, '/carteirinha'),
               icon: const Icon(
                 Icons.badge_outlined,
@@ -350,7 +350,7 @@ class _HomeState extends State<Home> {
                 size: 30,
               ),
               label: const Text("")
-          ),
+          ) : Container(),
           /*
           TextButton.icon(
               onPressed: () {

@@ -141,6 +141,7 @@ class _SocioAreaState extends State<SocioArea> {
         ),
         Padding(padding: const EdgeInsets.all(20),
           child: Input(
+            hideContent: true,
             label: "senha",
             value: "",
             onChanged: (str, status){

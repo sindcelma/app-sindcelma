@@ -1,3 +1,4 @@
+
 class Config {
 
   static const String urlAssetProduction  = "http://assetsindcelma.com.br";

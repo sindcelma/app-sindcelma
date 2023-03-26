@@ -61,7 +61,7 @@ class Request {
     session = User().socio.getSession();
   }
 
-  Future<bool> get(String uri) async {
+  Future<bool> get(String uri, {full=false}) async {
 
     int count = 5;
 
@@ -73,9 +73,14 @@ class Request {
       count--;
     }
 
-    var res = await http.get(Config.getUrlAPI(uri));
-    _response = jsonDecode(utf8.decode(res.bodyBytes));
-    _code = res.statusCode;
+    var res = !full ? await http.get(Config.getUrlAPI(uri)) : await http.get(Uri.parse(uri));
+    if(!full){
+      _response = jsonDecode(utf8.decode(res.bodyBytes));
+      _code = res.statusCode;
+    } else {
+      _response = {"message":jsonDecode(utf8.decode(res.bodyBytes))};
+      _code = 200;
+    }
 
     return res.statusCode == 200;
 
@@ -102,6 +107,10 @@ class Request {
     //print(_uri);
     //print('------------------------------------------------------------------------');
     var res = await http.post(_uri, headers: {"Content-Type": "application/json"}, body:jsonEncode(body));
+    //print('------------------------------------------------------------------------');
+    //print("message > ${utf8.decode(res.bodyBytes)}");
+    //print('------------------------------------------------------------------------');
+
     _response = jsonDecode(utf8.decode(res.bodyBytes));
 
     if(_response.containsKey('session')){

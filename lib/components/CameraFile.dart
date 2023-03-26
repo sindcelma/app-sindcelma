@@ -21,11 +21,12 @@ enum ImageType {
 class CameraFile extends StatefulWidget {
 
   final Function(bool status, bool refresh) onRespose;
+  final bool activity;
   final Function? onBack;
   final ImageType type;
   final bool loading;
 
-  const CameraFile({Key? key, this.loading = true,  this.onBack, required this.onRespose, required this.type}) : super(key: key);
+  const CameraFile({Key? key, this.loading = true,  this.onBack, required this.onRespose, required this.type, this.activity = true}) : super(key: key);
 
   @override
   State<CameraFile> createState() => _CameraFileState();
@@ -168,8 +169,8 @@ class _CameraFileState extends State<CameraFile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return widget.activity ? Scaffold(
       body: factoryCamera(),
-    );
+    ) : factoryCamera();
   }
 }

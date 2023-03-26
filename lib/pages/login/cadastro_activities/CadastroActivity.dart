@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/AlertMessage.dart';
 import 'package:sindcelma_app/components/Btn.dart';
-import 'package:sindcelma_app/model/services/SocioManagerService.dart';
-import 'package:sindcelma_app/model/services/UserManagerService.dart';
+import 'package:sindcelma_app/pages/login/cadastro_activities/AddDocuments.dart';
 import 'package:sindcelma_app/pages/login/cadastro_activities/CadastrarDados.dart';
 import 'package:sindcelma_app/pages/login/cadastro_activities/CadastrarEmpresa.dart';
 import 'package:sindcelma_app/pages/login/cadastro_activities/CadastrarNome.dart';
@@ -56,8 +55,9 @@ class _CadastroActivityState extends State<CadastroActivity> {
     super.initState();
     parts = [
       CadastrarNome(),
-      CadastrarEmpresa(),
-      CadastrarDados()
+      const CadastrarEmpresa(),
+      CadastrarDados(),
+      const AddDocuments()
     ];
 
     p = parts[_step] as Widget;
@@ -85,17 +85,7 @@ class _CadastroActivityState extends State<CadastroActivity> {
   }
 
   Future<void> finalizar() async {
-
-    var response = await SocioManagerService().saveSocio();
-
-    if(!response.getStatus()) {
-      showAlert('error', response.getResponse());
-      return;
-    }
-
-    await UserManagerService().saveUser();
-    widget.response();
-
+    widget.response(true, loading:true);
   }
 
   void loading(bool status){
@@ -122,18 +112,15 @@ class _CadastroActivityState extends State<CadastroActivity> {
   void nextStep() async {
     loading(true);
     ResponseActivity res = await part.checkStatusActivity();
+    if(!res.status){
+      showAlert('error', res.response);
+      loading(false);
+      return;
+    }
     if(_step == parts.length-1){
       await finalizar();
-      if(!res.status){
-        showAlert('error', res.response);
-      }
     } else {
-      if(!res.status){
-        showAlert('error', res.response);
-      }
-      else {
-        addStep();
-      }
+      addStep();
     }
     loading(false);
   }
@@ -151,7 +138,7 @@ class _CadastroActivityState extends State<CadastroActivity> {
           Align(
             alignment: AlignmentDirectional.topStart,
             child: Container(
-              child: BtnIcon(TypeColor.text, "Voltar", const Icon(Icons.arrow_back), () {
+              child: _step < parts.length - 1 ? BtnIcon(TypeColor.text, "Voltar", const Icon(Icons.arrow_back), () {
                 setState(() {
                   if(_step == 0){
                     Navigator.pop(context);
@@ -163,7 +150,7 @@ class _CadastroActivityState extends State<CadastroActivity> {
                     });
                   }
                 });
-              }),
+              }) : Container(),
             ),
           ),
           Align(

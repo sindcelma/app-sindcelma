@@ -6,6 +6,9 @@ import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/pages/login/cadastro_activities/CadastroActivity.dart';
 import 'package:sindcelma_app/model/entities/User.dart';
 
+import '../../../model/services/SocioManagerService.dart';
+import '../../../model/services/UserManagerService.dart';
+
 class CadastrarDados extends StatelessWidget implements Activity {
 
   bool emailStatus = false;
@@ -126,14 +129,45 @@ class CadastrarDados extends StatelessWidget implements Activity {
       return ResponseActivity(status: false, response: "Este email já está em uso. Tente outro email.");
     }
 
+    bool stat = User().confirm == User().senha && emailStatus;
+    if(!stat){
+      return ResponseActivity(
+          status: false,
+          response: !stat ? "As senhas não batem ou o e-mail não é válido." : ""
+      );
+    }
+
+    var response = await SocioManagerService().saveSocio();
+
+    if(!response.getStatus()) {
+      return ResponseActivity(status: false, response: response.getResponse());
+    }
+
     User().isMinimal();
 
-    bool stat = User().confirm == User().senha && emailStatus;
+    // fazer o login...
+    while(true){
+      var requestLogin = Request();
+      await requestLogin.post('/user/login', {
+        'email':User().email,
+        'senha':User().senha,
+        'type':'Socio',
+        'rememberme': true
+      });
+      if(requestLogin.code() == 200){
+        var res = requestLogin.response()['message'];
+        User().setDataMap(res['user']);
+        User().setSocioMap(res['user']);
+        User().socio.status = res['user']['status'];
+        User().status = 3;
+        User().socio.setToken(requestLogin.response()['message']['remembermetk']);
+        await UserManagerService().saveUser();
+        await requestLogin.atualizarUser();
+        break;
+      }
+    }
 
-    return ResponseActivity(
-      status: stat,
-      response: !stat ? "As senhas não batem ou o e-mail não é válido." : ""
-    );
+    return ResponseActivity(status: true, response: '');
 
   }
 

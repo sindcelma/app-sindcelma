@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sindcelma_app/model/Request.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:sindcelma_app/model/services/NoticiasService.dart';
 
 import '../../../model/entities/Noticia.dart';
+import '../../../model/services/InfoService.dart';
+
 
 class NoticiaSelected extends StatefulWidget {
 
@@ -25,18 +28,25 @@ class _NoticiaSelectedState extends State<NoticiaSelected> {
 
   void getText() async {
 
-    var req = Request();
-    await req.get('/noticias/get/${widget.noticia.id}');
-    if(req.code() != 200) return;
-    var res = req.response()['message'][0];
+    var res = await NoticiasService.get(widget.noticia.id);
+    if(res == false || res.length == 0) return;
     setState(() {
-      text = res['text'];
+      text = res[0]['text'];
     });
 
   }
 
   @override
   Widget build(BuildContext context) {
+
+    Widget html = Text(text);
+
+    if(InfoService.getWpNoticiasStatus()){
+      html = Html(
+          data:text
+      );
+    }
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -99,13 +109,7 @@ class _NoticiaSelectedState extends State<NoticiaSelected> {
                 ),
 
                 Padding(padding: const EdgeInsets.only(left: 10, right: 10, top:10),
-                  child: Text(text,
-                    style: const TextStyle(
-                        fontSize: 17,
-                        fontFamily: 'Calibri',
-                        color: Colors.black
-                    ),
-                  ),
+                  child: html,
                 ),
 
               ],

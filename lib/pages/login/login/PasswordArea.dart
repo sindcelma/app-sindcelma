@@ -36,6 +36,7 @@ class _PasswordAreaState extends State<PasswordArea> {
       Padding(
         padding: const EdgeInsets.all(10),
         child: Input(
+          hideContent: true,
           label: 'senha',
           value: senha,
           onChanged: (str, status){
