@@ -41,6 +41,8 @@ class Request {
         User().setDataMap(r['user']);
         User().setSocioMap(r['user']);
         User().socio.status = r['user']['status'];
+        User().hasCodeDev = r['user']['hasCodeDev'];
+
         await UserManagerService().updateUser();
         await UserManagerService().updateSocio();
         User().atualizado = true;
@@ -93,6 +95,7 @@ class Request {
     }
 
     int count = 5;
+
     while(!User().atualizado){
       if(count == 0) {
         return false;
@@ -103,25 +106,13 @@ class Request {
     }
 
     Uri _uri = uploadFile ? Config.getUrlAsset(uri) : Config.getUrlAPI(uri);
-    //print('------------------------------------------------------------------------');
-    //print(_uri);
-    //print('------------------------------------------------------------------------');
     var res = await http.post(_uri, headers: {"Content-Type": "application/json"}, body:jsonEncode(body));
-    //print('------------------------------------------------------------------------');
-    //print("message > ${utf8.decode(res.bodyBytes)}");
-    //print('------------------------------------------------------------------------');
-
     _response = jsonDecode(utf8.decode(res.bodyBytes));
 
     if(_response.containsKey('session')){
       session = _response['session'];
     }
     _code = res.statusCode;
-
-    //print('------------------------------------------------------------------------');
-    //print("code > ${res.statusCode}");
-    //print("message > $_response");
-    ///print('------------------------------------------------------------------------');
 
     if(res.statusCode == 401){
       await UserManagerService().reset();

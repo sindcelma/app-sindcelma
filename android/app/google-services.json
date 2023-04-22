@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "406582568408",
-    "project_id": "sindcelma-app-test",
-    "storage_bucket": "sindcelma-app-test.appspot.com"
+    "project_number": "476075923506",
+    "project_id": "sindcelma-app-1f97d",
+    "storage_bucket": "sindcelma-app-1f97d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:406582568408:android:344ff5189b8b077c1bbead",
+        "mobilesdk_app_id": "1:476075923506:android:1fd79f144212c0ea78842b",
         "android_client_info": {
           "package_name": "sindcelma.com.br.sindcelma_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "406582568408-jrsq28oft06c904ppb28kbcoa8m6j1s1.apps.googleusercontent.com",
+          "client_id": "476075923506-861kq3gpg4te7s5ajsbabks9o22coep7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDqGQPhkhAMSFaF-8bCA-RXZ7LMM9esd_Q"
+          "current_key": "AIzaSyAWetwA0ADQ_zqOUhUpUn1KX4NfaERQ-xU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "406582568408-jrsq28oft06c904ppb28kbcoa8m6j1s1.apps.googleusercontent.com",
+              "client_id": "476075923506-861kq3gpg4te7s5ajsbabks9o22coep7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "406582568408-6rkpvdd74f401pmr17dif75v7qcijioh.apps.googleusercontent.com",
+              "client_id": "476075923506-ifnh3b2apls9smnqj8h08numjufce3c7.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "sindcelma.com.br.sindcelmaApp"

@@ -23,33 +23,22 @@ class FirebaseService {
   
   init() async {
 
-    if(initialized){
+    if(User().hasCodeDev){
       return;
     }
 
-    if(_deviceToken != null){
-      return;
+    if(!initialized){
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform
+      );
     }
-
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform
-    );
 
     NotificationSettings ns = await _fcm.requestPermission(alert: true, sound: false);
 
     if(ns.authorizationStatus == AuthorizationStatus.authorized){
-
-      _deviceType = Platform.isIOS ? 'ios' : 'android';
-
-      var db = await DatabaseService().db;
-      List firebaseReg  = await db.query('firebase', limit: 1);
-      if(firebaseReg.isEmpty){
-        _deviceToken = await FirebaseMessaging.instance.getToken();
-        await _saveToken(db);
-      } else {
-        _deviceToken = firebaseReg.first['device_token'];
-      }
-
+      _deviceType  = Platform.isIOS ? 'ios' : 'android';
+      _deviceToken = await FirebaseMessaging.instance.getToken();
+      await _saveToken();
     }
 
     initialized = true;
@@ -59,8 +48,12 @@ class FirebaseService {
     return _deviceToken;
   }
 
+  static resetToken() {
+    _deviceToken = null;
+    initialized = false;
+  }
 
-  _saveToken(Database db) async {
+  _saveToken() async {
     await SocioManagerService().generateSocio();
     var rememberme = _user.socio.getToken();
     var req = Request();
@@ -69,13 +62,6 @@ class FirebaseService {
       "tokendevice":_deviceToken,
       "typedevice":_deviceType
     });
-    if(req.code() == 200) {
-      await db.insert('firebase', {
-        "device_token":_deviceToken
-      });
-    } else {
-      _deviceToken = "";
-    }
   }
 
 }

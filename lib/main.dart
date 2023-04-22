@@ -33,6 +33,7 @@ class SindcelmaApp extends StatefulWidget {
 
   @override
   State<SindcelmaApp> createState() => _SindcelmaAppState();
+
 }
 
 
@@ -100,6 +101,7 @@ class _SindcelmaAppState extends State<SindcelmaApp> {
         widget.page = "document";
         return;
       }
+
       switch(User().status){
         case 1: widget.page = "home"; break;
         case 2:

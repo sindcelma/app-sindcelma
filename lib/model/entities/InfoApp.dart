@@ -1,11 +1,15 @@
+import 'dart:io';
 
 class InfoApp {
 
   String _appVersion = '';
   String _apiVersion = '';
   String _package = '';
+  String _packageAndroid = '';
+  String _packageIOS = '';
   bool _atualized = false;
   bool _inicializado = false;
+
 
   static final InfoApp _infoApp = InfoApp._internal();
 
@@ -27,6 +31,10 @@ class InfoApp {
     return _package;
   }
 
+  packages(){
+    return Platform.isIOS ? _packageIOS : _packageAndroid;
+  }
+
   setAppVersion(String appVersion){
     _appVersion = appVersion;
   }
@@ -37,6 +45,14 @@ class InfoApp {
 
   setPackage(String package){
     _package = package;
+  }
+
+  setPackageIOS(String package){
+    _packageIOS = package;
+  }
+
+  setPackageAndroid(String package){
+    _packageAndroid = package;
   }
 
   setIsAtualized(bool atualizado){

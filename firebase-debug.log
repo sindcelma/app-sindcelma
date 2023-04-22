@@ -1,0 +1,11 @@
+[debug] [2023-04-15T21:34:46.504Z] ----------------------------------------------------------------------
+[debug] [2023-04-15T21:34:46.506Z] Command:       /usr/local/bin/firebase /home/andreicoelho/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase apps:list ios --json --project=sindcelma-app-1f97d
+[debug] [2023-04-15T21:34:46.506Z] CLI Version:   11.27.0
+[debug] [2023-04-15T21:34:46.506Z] Platform:      linux
+[debug] [2023-04-15T21:34:46.506Z] Node Version:  v16.16.0
+[debug] [2023-04-15T21:34:46.507Z] Time:          Sat Apr 15 2023 18:34:46 GMT-0300 (GMT-03:00)
+[debug] [2023-04-15T21:34:46.507Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-04-15T21:34:46.561Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-04-15T21:34:46.561Z] > authorizing via signed-in user (andreifcoelho@gmail.com)
+[debug] [2023-04-15T21:34:46.564Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sindcelma-app-1f97d/iosApps pageSize=100

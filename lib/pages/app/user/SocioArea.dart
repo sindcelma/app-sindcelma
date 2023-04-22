@@ -218,7 +218,7 @@ class _SocioAreaState extends State<SocioArea> {
           ),
         ),
         Text(
-          User().email,
+          User().email.trim(),
           textAlign: TextAlign.center,
           style: const TextStyle(
               fontSize: 14,
@@ -380,7 +380,7 @@ class _SocioAreaState extends State<SocioArea> {
       User().status < 2
       ? Image.asset('assets/user_icon.png', color: Colors.white,)
       : Image.network(
-        Config.getUrlAssetString("/images/fav/${User().email}.jpg"),
+        Config.getUrlAssetString("/images/fav/${User().email.trim()}.jpg"),
         width: 90,
         height: 90,
         fit: BoxFit.cover

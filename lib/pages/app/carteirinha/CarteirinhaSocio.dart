@@ -155,7 +155,7 @@ class _CarteirinhaSocioState extends State<CarteirinhaSocio> {
                     backgroundColor: SindcelmaTheme.color_primary,
                     child: ClipOval(
                       child: Image.network(
-                          Config.getUrlAssetString("/images/fav/${User().email}.jpg"),
+                          Config.getUrlAssetString("/images/fav/${User().email.trim()}.jpg"),
                           width: 120,
                           height: 120,
                           fit: BoxFit.cover

@@ -51,9 +51,8 @@ class _AtualizarState extends State<Atualizar> {
                 "ATUALIZAR APP",
                 const Icon(Icons.open_in_new,
                   color: Colors.green,
-                ),
-                    () async {
-                  final Uri url = Uri.parse(InfoApp().package());
+                ), () async {
+                    final Uri url = Uri.parse(InfoApp().packages());
                   try {
                     await launchUrl(url, mode: LaunchMode.externalApplication);
                   } catch (e) {

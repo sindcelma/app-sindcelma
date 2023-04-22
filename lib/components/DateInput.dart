@@ -45,11 +45,11 @@ class _DateInputState extends State<DateInput> {
       ),
       decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.green),
+            borderSide: BorderSide(color: Colors.black45),
           ),
           border: const OutlineInputBorder(),
           labelText: widget.label,
-          labelStyle: const TextStyle(color: Colors.green),
+          labelStyle: const TextStyle(color: Colors.black45),
           hintStyle: TextStyle(
               color: Colors.green[900]
           ),

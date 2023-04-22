@@ -2,15 +2,15 @@
 class Config {
 
   static const String urlAssetProduction  = "http://assetsindcelma.com.br";
-  static const String urlAssetDevelopment = "http://192.168.0.11:8904";
+  static const String urlAssetDevelopment = "http://172.17.0.4";
 
-  static const String urlAPIProduction    = "http://sindcelmatecnologia.com.br";
+  static const String urlAPIProduction    = "https://sindcelmatecnologia.com.br";
   static const String urlAPIDevelopment   = "http://192.168.0.11:3050";
 
   static const String APP_VERSION    = "1.4.0";
 
   static const bool   isSecure       = false;
-  static const bool   isInProduction = false;
+  static const bool   isInProduction = true;
 
   static getUrlAsset(String uri){
     String url = (isInProduction ? urlAssetProduction : urlAssetDevelopment)+uri;

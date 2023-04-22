@@ -1,8 +1,10 @@
 import 'package:sindcelma_app/model/entities/Socio.dart';
+import 'package:sindcelma_app/model/services/FirebaseService.dart';
 
 class User {
 
   bool atualizado  = true;
+  bool hasCodeDev  = false;
 
   String nome      = "";
   String sobrenome = "";
@@ -11,6 +13,7 @@ class User {
   String senha     = "";
   String confirm   = "";
   String tempKey   = "";
+
 
   int status = 0;
 
@@ -34,10 +37,10 @@ class User {
   }
 
   void setDataMap(Map dados){
-    nome      = dados['nome'];
-    sobrenome = dados['sobrenome'];
-    email     = dados['email'];
-    telefone  = dados['telefone'] ?? "";
+    nome       = dados['nome'];
+    sobrenome  = dados['sobrenome'];
+    email      = dados['email'];
+    telefone   = dados['telefone'] ?? "";
   }
 
   void setSocioMapDB(Map dados){
@@ -79,7 +82,6 @@ class User {
   }
 
   bool isMinimal(){
-    print(socio);
     return true;
   }
 
@@ -93,6 +95,7 @@ class User {
     atualizado = true;
     status     = 0;
     socio      = Socio();
+    FirebaseService.resetToken();
   }
 
 }

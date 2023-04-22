@@ -35,6 +35,8 @@ class InfoService {
     infoApp.setApiVersion(resApi['api_version']);
     infoApp.setAppVersion(resApi['app_version']);
     infoApp.setPackage(resApi['package']);
+    infoApp.setPackageIOS(resApi['packages']['ios']);
+    infoApp.setPackageAndroid(resApi['packages']['android']);
     infoApp.setIsAtualized(compareVersion(Config.APP_VERSION, resApi));
 
     return infoApp;

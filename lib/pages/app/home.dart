@@ -191,7 +191,7 @@ class _HomeState extends State<Home> {
                               User().status < 2
                               ? Image.asset('assets/user_icon.png', color: Colors.white,)
                               : Image.network(
-                                  Config.getUrlAssetString("/images/fav/${User().email}.jpg"),
+                                  Config.getUrlAssetString("/images/fav/${User().email.trim()}.jpg"),
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.cover,

@@ -27,7 +27,6 @@ class SocioManagerService {
     });
 
     if(request.code() != 200){
-      print("aqui!");
       return ResponseService(false, request.response()['message']);
     }
 

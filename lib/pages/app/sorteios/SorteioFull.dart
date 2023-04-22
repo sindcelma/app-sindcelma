@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sindcelma_app/components/Firewall.dart';
+import 'package:sindcelma_app/pages/app/ccts/CCTLoading.dart';
 import 'package:sindcelma_app/pages/app/sorteios/SorteioWidget.dart';
 
 import '../../../model/Request.dart';
@@ -19,17 +20,18 @@ class _SorteioFullState extends State<SorteioFull> {
 
   List<Widget> itens = [];
   List<String> participantes = [];
+  bool loading = true;
 
   void refresh(){
     setState(() {});
   }
 
-  void carregarVencedores() async {
+  Future<List<Widget>> carregarVencedores() async {
 
     var request = Request();
     await request.get('/sorteios/${widget.sorteio.id()}/vencedores');
-
-    itens.add(const Padding(
+    List<Widget> lista = [];
+    lista.add(const Padding(
       padding: EdgeInsets.all(20),
       child:  Text(
         "VENCEDORES",
@@ -43,7 +45,8 @@ class _SorteioFullState extends State<SorteioFull> {
     ));
 
     if(request.code() == 404){
-      itens.add( Text(
+
+      lista.add( Text(
         "ainda não há vencedores",
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -52,14 +55,11 @@ class _SorteioFullState extends State<SorteioFull> {
             fontSize: 18
         ),
       ));
-      refresh();
-      return;
-    } 
-
+      return lista;
+    }
     var response = request.response()['message'];
-
     for(var vencedor in response){
-      itens.add(Container(
+      lista.add(Container(
         color: Colors.green.shade900,
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -74,47 +74,56 @@ class _SorteioFullState extends State<SorteioFull> {
         ),
       ));
     }
-    refresh();
+    return lista;
   }
 
   @override
   void initState() {
     super.initState();
-    itens.add(Padding(
-      padding: const EdgeInsets.all(10),
-      child: GestureDetector(
-        onTap: (){
-          Navigator.pop(context);
-        },
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              Text("voltar",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18
-                ),
-              )
-            ]
-        ),
-      ),
-    ));
+  }
 
-    itens.add(SorteioWidget(widget.sorteio, isFull: true,));
-    carregarVencedores();
+  void carregarLista() async {
+    if(itens.isEmpty){
+      itens.add(Padding(
+        padding: const EdgeInsets.all(10),
+        child: GestureDetector(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                Text("voltar",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18
+                  ),
+                )
+              ]
+          ),
+        ),
+      ));
+      itens.add(SorteioWidget(widget.sorteio, isFull: true,));
+      List<Widget> vencedores = await carregarVencedores();
+      itens.addAll(vencedores);
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    carregarLista();
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.green,
-        body: Firewall(child: ListView(
-          children: itens,
+        body: Firewall(child: loading ? const CCTLoading() :  ListView(
+          children:  itens,
         ), onCheckMessage: () => Navigator.pop(context)),
       ),
     );
