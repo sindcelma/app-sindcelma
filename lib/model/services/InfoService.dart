@@ -3,7 +3,6 @@ import 'package:sindcelma_app/model/Config.dart';
 import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/model/entities/InfoApp.dart';
 
-
 String getPrincipalVersion(String v){
   var ver = v.split('.');
   return "${ver[0]}.${ver[1]}";
@@ -18,6 +17,7 @@ bool compareVersion(String versionAtual, Map versionCloud){
 class InfoService {
 
   static bool _wp_noticias = false;
+  static String _wp_categories = '';
 
   Future<InfoApp> getInfo() async {
 
@@ -31,7 +31,9 @@ class InfoService {
 
     var resApi = req.response()['message'];
 
-    _wp_noticias = resApi['wp_noticias'];
+    _wp_noticias   = resApi['wp_noticias'];
+    _wp_categories = resApi['wp_categories'];
+
     infoApp.setApiVersion(resApi['api_version']);
     infoApp.setAppVersion(resApi['app_version']);
     infoApp.setPackage(resApi['package']);
@@ -45,6 +47,10 @@ class InfoService {
 
   static bool getWpNoticiasStatus(){
     return _wp_noticias;
+  }
+
+  static String getWpCategories(){
+    return _wp_categories;
   }
 
 }

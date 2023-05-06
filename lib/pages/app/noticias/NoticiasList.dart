@@ -41,11 +41,13 @@ class _NoticiasListState extends State<NoticiasList> {
 
     hasMore = resp.length > 0;
 
+    print(resp);
+
     for(int i = 0; i < resp.length; i++ ){
       list.add(Noticia(
           id: resp[i]['id'],
           titulo: resp[i]['titulo'],
-          subtitulo: resp[i]['subtitulo'],
+          subtitulo: "",
           imagem: resp[i]['imagem'],
           data: resp[i]['data_created']
         )
