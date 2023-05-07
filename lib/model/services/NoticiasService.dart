@@ -8,8 +8,8 @@ class NoticiasService {
   static final String wp_categories = InfoService.getWpCategories();
   static final String _url = !wp_noticias ?
     Config.getUrlAPIString("") :
-    "https://www.papeleirosdemogi.com.br" ;
-    //"https://www.sindcelma.com.br/" ;
+    //"https://www.papeleirosdemogi.com.br" ;
+    "https://www.sindcelma.com.br/" ;
 
   static _response(String url) async {
 

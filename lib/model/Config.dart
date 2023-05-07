@@ -10,7 +10,7 @@ class Config {
   static const String APP_VERSION    = "2.0.0";
 
   static const bool   isSecure       = false;
-  static const bool   isInProduction = false;
+  static const bool   isInProduction = true;
 
   static getUrlAsset(String uri){
     String url = (isInProduction ? urlAssetProduction : urlAssetDevelopment)+uri;
