@@ -32,8 +32,8 @@ class _QRCodeLinkState extends State<QRCodeLink> {
 
     String slug  = User().socio.getSlug();
     String salt  = User().socio.getSalt();
-    int duration = DateTime.now().millisecondsSinceEpoch + 2 * 60 * 60 * 1000;
-    // int duration = DateTime.now().millisecondsSinceEpoch + 35 * 1000; // + 35 segundos
+    //int duration = DateTime.now().millisecondsSinceEpoch + 2 * 60 * 60 * 1000;
+    int duration = DateTime.now().millisecondsSinceEpoch + 35 * 1000; // + 35 segundos
     String data  = '{"slug":"$slug", "duration":$duration}';
     String key   = slug+salt+data;
     var bytes    = utf8.encode(key);
@@ -69,8 +69,9 @@ class _QRCodeLinkState extends State<QRCodeLink> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        QrImage(
+        QrImageView(
           data: data,
+          version: QrVersions.auto,
           backgroundColor: Colors.white,
           size: 200,
         ),
@@ -106,8 +107,6 @@ class _QRCodeLinkState extends State<QRCodeLink> {
                 }
               }
           ),)
-
-
 
       ],
     );
