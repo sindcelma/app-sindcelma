@@ -87,6 +87,7 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: getLoading(),
       ),

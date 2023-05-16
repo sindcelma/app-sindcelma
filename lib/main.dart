@@ -56,6 +56,7 @@ class _SindcelmaAppState extends State<SindcelmaApp> {
 
     if(widget.page == 'atualizar'){
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Atualizar(onResponse),
       );
     } else if(widget.page == 'login'){
@@ -64,6 +65,7 @@ class _SindcelmaAppState extends State<SindcelmaApp> {
       return LoadingPage(onResponse);
     } else if(widget.page == 'document') {
       return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: AddDocumentsActivity(onResponse),
       );
     } else {

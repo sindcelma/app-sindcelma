@@ -29,6 +29,7 @@ class LoginPage extends StatelessWidget {
     }
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
