@@ -37,6 +37,7 @@ class _AppState extends State<App> {
     FirebaseService();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
