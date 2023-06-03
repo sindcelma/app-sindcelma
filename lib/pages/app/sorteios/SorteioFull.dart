@@ -120,6 +120,7 @@ class _SorteioFullState extends State<SorteioFull> {
   Widget build(BuildContext context) {
     carregarLista();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.green,
         body: Firewall(child: loading ? const CCTLoading() :  ListView(

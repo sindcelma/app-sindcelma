@@ -79,9 +79,9 @@ class _AlterarSenhaState extends State<AlterarSenha> {
               onTap: (){
                 Navigator.pop(context);
               },
-              child: Row(
+              child: const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.arrow_back,
                       color: Colors.red,
@@ -113,10 +113,10 @@ class _AlterarSenhaState extends State<AlterarSenha> {
           ),
           Container(
             color: Colors.red,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
+            child: const Padding(
+              padding: EdgeInsets.all(20),
               child: Column(
-                children: const [
+                children: [
                   Center(
                     child: Text('ATENÇÃO! APÓS ALTERAÇÃO DA SENHA',
                       style: TextStyle(

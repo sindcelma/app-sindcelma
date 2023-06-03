@@ -185,6 +185,7 @@ class _CCTSelectedState extends State<CCTSelected> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Firewall(
             onCheckMessage: () => Navigator.pop(context),

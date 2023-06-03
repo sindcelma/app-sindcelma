@@ -7,7 +7,7 @@ class Config {
   static const String urlAPIProduction    = "https://sindcelmatecnologia.com.br";
   static const String urlAPIDevelopment   = "http://192.168.0.11:3050";
 
-  static const String APP_VERSION    = "2.0.0";
+  static const String APP_VERSION    = "2.1.0";
 
   static const bool   isSecure       = false;
   static const bool   isInProduction = true;

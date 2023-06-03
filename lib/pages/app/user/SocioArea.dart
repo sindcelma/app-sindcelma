@@ -6,6 +6,7 @@ import 'package:sindcelma_app/components/LoadingComponent.dart';
 import 'package:sindcelma_app/model/Request.dart';
 import 'package:sindcelma_app/pages/app/user/AlterarEmail.dart';
 import 'package:sindcelma_app/pages/app/user/AlterarSenha.dart';
+import 'package:sindcelma_app/pages/app/user/CancelarInscricao.dart';
 import 'package:sindcelma_app/pages/app/user/InformacoesBasicas.dart';
 import 'package:sindcelma_app/pages/app/user/InformacoesPessoais.dart';
 import 'package:sindcelma_app/pages/app/user/InformacoesProfissionais.dart';
@@ -111,9 +112,9 @@ class _SocioAreaState extends State<SocioArea> {
             onTap: (){
               Navigator.pop(context);
             },
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.arrow_back,
                     color: Colors.red,
@@ -182,9 +183,9 @@ class _SocioAreaState extends State<SocioArea> {
             onTap: (){
               Navigator.pop(context);
             },
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.arrow_back,
                     color: Colors.red,
@@ -312,7 +313,7 @@ class _SocioAreaState extends State<SocioArea> {
             const Icon(Icons.energy_savings_leaf_outlined,
               color: Colors.red,
             ),
-                () => showActivity(
+            () => showActivity(
                 InformacoesProfissionais(
                     onResponse: (status, refresh){
                       checkRefresh(refresh);
@@ -371,6 +372,25 @@ class _SocioAreaState extends State<SocioArea> {
                 )
             )
         ),
+
+        BtnIcon(
+            TypeColor.primary,
+            "Exluir Conta",
+            const Icon(
+              Icons.logout,
+              color: Colors.red,
+            ),
+                () => showActivity(CancelarInscricao(
+                  onResponse: (code){
+                    if(code == 403){
+                      return checkRefresh(true);
+                    }
+                    if(code == 402){
+                      return showAlert("A senha está errada");
+                    }
+                  },
+                ))
+        )
       ],
     );
   }
